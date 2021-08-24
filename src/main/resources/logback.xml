@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--configuration是logback的根标签-->
+<configuration>
+
+    <!--定义日志的输出位置-->
+    <property name = "log.filePath" value="D:\\log"></property>
+
+    <!--定义日志的打印格式
+    %d{yyyy-MM-dd HH:mm:ss.SSS} 日志打印时间格式
+    [%thread] 执行日志的线程名称
+    %-5level 空出5个空格，再显示日志级别
+    %logger{100} 显示全限定名，最大展示长度为100
+    %msg 日志信息
+    %n 换行
+    -->
+    <property name = "log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{100} %msg %n"></property>
+
+    <!--定义控制台日志的输出媒介-->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <!--定义日志格式-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="com.logback.PatternMaskLayout">
+                <maskKey>
+                    username,
+                    username2,
+                    username3
+                </maskKey>
+                <pattern>${log.pattern}</pattern>
+            </layout>
+       </encoder>
+    </appender>
+
+    <!--定义文件日志的输出媒介-->
+    <appender name="rollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径-->
+        <file>${log.filePath}/logback.log</file>
+        <!--文件滚动策略:基于时间-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--设置按天来生成文件-->
+            <fileNamePattern>${log.filePath}/logback_%d{yyyy_MM_dd}.log</fileNamePattern>
+            <!--文件保留的最大数量：1份-->
+            <maxHistory>1</maxHistory>
+        </rollingPolicy>
+        <!--定义日志格式-->
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <!--过滤器，自定义日志级别-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <!--如果是info日志级别，则接受-->
+            <onMatch>ACCEPT</onMatch>
+            <!--如果不是info日志级别，则都忽略-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <root level="DEBUG">
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="rollingFileAppender"/>
+    </root>
+</configuration>
