@@ -11,7 +11,7 @@ public class LogbackApplication {
         for (int i = 0; i < 1 ; i++) {
             User user1 = new User("18503084321", 12);
             logger.info("user1: " + user1);
-            logger.info("{\"age\":18,\"username2\":\"ll\"}");
+            logger.info("{\"age\":18,\"username3\":\"ll\"}");
         }
     }
 }

@@ -20,11 +20,10 @@
         <!--定义日志格式-->
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="com.logback.PatternMaskLayout">
-                <maskKey>
-                    username,
-                    username2,
-                    username3
-                </maskKey>
+                <maskKey>username</maskKey>
+                <maskKey>username2</maskKey>
+                <maskKey>username3</maskKey>
+                <maskKey>mobileNo</maskKey>
                 <pattern>${log.pattern}</pattern>
             </layout>
        </encoder>

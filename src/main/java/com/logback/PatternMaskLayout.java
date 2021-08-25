@@ -15,27 +15,20 @@ public class PatternMaskLayout extends PatternLayout {
 
     private final static String MASK_REPLACE = "*疑似敏感信息*";
 
-    private String maskKey;
-
-    public String getMaskKey() {
-        return maskKey;
-    }
-
-    public void setMaskKey(String maskKey) {
-        this.maskKey = maskKey;
+    public void addMaskKey(String maskKey) {
+        System.out.println("maskKey: " + maskKey);
+        MaskUtil.maskPatterns.add(maskKey.concat("=(.*?)[,}]"));
+        MaskUtil.maskPatterns.add("\"".concat(maskKey).concat("\"").concat(":(.*?)[,}]"));
     }
 
     @Override
     public String doLayout(ILoggingEvent event) {
-
-        System.out.println("maskKey: "  + maskKey);
-
-        return maskMessage(super.doLayout(event),maskKey);
+        return maskMessage(super.doLayout(event));
     }
 
-    private String maskMessage(String msg,String maskKey){
+    private String maskMessage(String msg){
 
-        Pattern pattern = MaskUtil.getMultilinePattern(maskKey);
+        Pattern pattern = MaskUtil.getMultilinePattern();
         Matcher matcher = pattern.matcher(msg);
         Set<String> sensitiveMessage = new HashSet<>();
         while (matcher.find()){

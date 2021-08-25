@@ -29,14 +29,7 @@ public class MaskUtil {
         }
     }
 
-    public static Pattern getMultilinePattern(String maskKey){
-        List<String> collect = Arrays.stream(StringUtils.split(maskKey, ","))
-                .map(e -> CharMatcher.breakingWhitespace().removeFrom(e))
-                .collect(Collectors.toList());
-        for (String mk : collect) {
-            maskPatterns.add(mk.concat("=(.*?)[,}]"));
-            maskPatterns.add("\"".concat(mk).concat("\"").concat(":(.*?)[,}]"));
-        }
+    public static Pattern getMultilinePattern(){
         return Pattern.compile(String.join("|",maskPatterns),Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
     }
 }
